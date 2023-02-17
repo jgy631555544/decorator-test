@@ -8,10 +8,11 @@ function getId(params: any, key: string | undefined): string {
   keySplit.forEach((str) => {
     idItem = idItem[str];
   });
-  if (typeof idItem !== "string") {
+  if (typeof idItem === "string" || typeof idItem === "number") {
+    return `${idItem}`;
+  } else {
     logger.error("[DataPrivilege] can not get hierarchyId by key from your params", "-1");
     throw new customException("[DataPrivilege] can not get hierarchyId by key from your params", "-1");
   }
-  return idItem as string;
 }
 export default getId;
