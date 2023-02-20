@@ -1,7 +1,7 @@
 {
-  "name": "data-authority-security",
+  "name": "seds-security-data-privilege",
   "version": "0.0.9",
-  "description": "data-authority-security",
+  "description": "seds-security-data-privilege",
   "main": "lib/index.cjs.js",
   "module": "lib/index.esm.js",
   "types": "index.d.ts",

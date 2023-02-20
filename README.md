@@ -1,7 +1,7 @@
 ## 项目结构
 
 ```
-data-authority-security             主项目
+seds-security-data-privilege             主项目
     -- src
         -- auth                     鉴权
             -- classic.ts           classic鉴权
@@ -10,7 +10,7 @@ data-authority-security             主项目
         -- decorator                装饰器
         -- exception                异常
         -- utils                    工具函数
-data-authority-security-test        模拟接口测试
+seds-security-data-privilege-test        模拟接口测试
     -- test                         相关接口测试脚本
 ```
 
@@ -19,7 +19,7 @@ data-authority-security-test        模拟接口测试
 ### 安装依赖包，已经在 npm 公服发布(此包无具体业务信息)；后期会迁移到公司的私服
 
 ```bash
-  npm i data-authority-security --save
+  npm i seds-security-data-privilege --save
 ```
 
 ### 环境变量配置
@@ -31,7 +31,7 @@ OCEANBASE_AUTH_HOST = 'http://oceanbase-url'
 CLASSIC_AUTH_HOST = 'http://classic-url'
 ```
 
-### tsconfig 设置
+### tsconfig 设置：避免装饰器报错
 
 ```json
 {
@@ -123,7 +123,7 @@ testBuilding(variables: Variables) {
     return success
 }
 // 检查类型自定义，并且提供hasDataAuth校验函数
-@dataPrivilegeDecorator(hierarchyType.ROOM, 'hierarchyId',{checkType: checkType.custom,hasDataAuth: () => true})
+@dataPrivilegeDecorator(hierarchyType.ROOM, 'data.hierarchyId',{checkType: checkType.custom,hasDataAuth: () => true})
 testRoom(variables: Variables) {
     return success
 }
@@ -131,6 +131,16 @@ testRoom(variables: Variables) {
 testPanel(variables: Variables) {
     return success
 }
+// 层级参数
+@dataPrivilegeDecorator(hierarchyType.DEVICE, 'data.hierarchyId.0')
+testDevice(variables: Variables) {
+  return success
+}
+@dataPrivilegeDecorator(hierarchyType.CIRCUIT, 'data.hierarchyId')
+testCircuit(variables: Variables) {
+  return success
+}
+// 非正常json结构：bff会将非json结构转为json结构，无法区分；暂不支持，后续如有需求再调研支持
 ```
 
 #### dataPrivilegeDecorators 参数共三个：Array<hierarchyParams>、params
